@@ -8,11 +8,9 @@ import shutil
 import pandas as pd
 import json
 import matplotlib.pyplot as plt
-from PIL import Image, ImageDraw, ImageColor
+from PIL import Image, ImageDraw
 import cv2
 from sklearn.model_selection import train_test_split
-from pprint import pp
-from icecream import ic
 
 from collections import OrderedDict
 
@@ -91,7 +89,6 @@ class Pizzaiolo():
             plt.subplot(1, len(img_list), i+1)
             if not titles is None:
                 plt.title(titles[i], fontsize=fontsize)
-            #         plt.imshow(tf.keras.preprocessing.image.array_to_img(display_list[i]))
             plt.imshow(img_list[i])
             plt.axis('off')
         plt.show()
@@ -166,7 +163,6 @@ class Pizzaiolo():
         filtered_contours = []
         for i, h in enumerate(hierarchy):
             next, previous, first_child, parent = h
-            # print('', parent)
             if parent == -1: filtered_contours.append(contours[i])
         boxes = []
         for c in filtered_contours:
@@ -213,7 +209,6 @@ class Pizzaiolo():
     @staticmethod
     def loadCSV(dataset_dir, csv_filename):
         df = pd.read_csv(os.path.join(dataset_dir, Pizzaiolo.CSV_DIR, csv_filename), index_col=Pizzaiolo.REF_COLUMN_NAME)
-        # df['hasTopping'] = df['hasTopping'].astype('O')
         df['hasTopping'] = df['hasTopping'].apply(eval)
         try:
             df[Pizzaiolo.MULTILABEL_COLUMN_NAME] = df[Pizzaiolo.MULTILABEL_COLUMN_NAME].apply(eval)
@@ -299,8 +294,6 @@ class Pizzaiolo():
         if test_size is not None:
             test_df.to_csv(os.path.join(csv_dir, Pizzaiolo.CSV_TEST_FILENAME), index=False)
 
-        # clean
-        # os.remove(os.path.join(delivery_dir, Pizzaiolo.LABELS_DIR, Pizzaiolo.CSV_FILENAME))
     
     @staticmethod
     def __subMasks(mask, other):
@@ -432,7 +425,6 @@ class Pizzaiolo():
         self.__elements_order = [None]
 
         if not self.pizza.hasBase is None:
-            # print('Ontololgy has : %s' % self.pizza.hasBase.name)
             self.__elements_order.extend([
                 self.pizza.DeepPanBase,
                 self.pizza.ThinAndCrispyBase
@@ -441,7 +433,6 @@ class Pizzaiolo():
         self.__elements_order.extend(self.__toppings) 
         
         if not self.pizza.hasCountryOfOrigin is None:
-            # print('Ontololgy has : %s' % self.pizza.hasCountryOfOrigin.name)
             self.__elements_order.extend([
                 self.pizza.America,
                 self.pizza.England,
@@ -515,8 +506,6 @@ class Pizzaiolo():
         if not os.path.exists(delivery_dir):
             os.mkdir(delivery_dir)
         else:
-            # shutil.rmtree(delivery_dir)
-            # os.mkdir(delivery_dir)
             raise Exception('Unable to cook the dataset : directory %s already exists !' % delivery_dir)
         
         img_dir = os.path.join(delivery_dir, Pizzaiolo.IMAGES_DIR)
@@ -541,7 +530,6 @@ class Pizzaiolo():
         # Génération des data
         img_idx = 0
         data = []
-        # topping_classes = set()
         ignored_entities = []
         json_indents = 4
         for p in pizza_types:
@@ -560,11 +548,9 @@ class Pizzaiolo():
                 
                 try: country_name = names[hasCountryOfOrigin.name] 
                 except: country_name = None
-                # base_name, toppings_names, country_name = names.values()
 
                 for t in not_supported:
                     if ignored_entities.count(t) <= 0: ignored_entities.append(t)
-                # topping_classes = topping_classes.union(toppings)
 
                 ref = "img_%05d" % img_idx
 
@@ -607,7 +593,6 @@ class Pizzaiolo():
                 if not hasBase is None: newRow.append(base_name)
                 if not hasCountryOfOrigin is None: newRow.append(country_name)
                 newRow.extend([pizzaiolo_boxes_name, pizzaiolo_contours_name, pizzaiolo_seg_name])
-                # data.append([ref, p.name, img_name, pizzaiolo_boxes_name, pizzaiolo_contours_name, pizzaiolo_seg_name])
                 data.append(newRow)
 
         # entities ids
@@ -633,8 +618,6 @@ class Pizzaiolo():
         
         if len(ignored_entities) > 0:
             print("Ignored Toppings : ", ignored_entities)
-
-        # return ignored_toppings
         
 
     def __cropImage(self, topping_img):
@@ -687,12 +670,9 @@ class Pizzaiolo():
         for i in range(number):
             if limits[0] != limits[1]:
                 r = (randrange( int(radius * limits[0]), int(radius * limits[1])) )
-                # r = (randrange( int(radius * ((random() -0.5) * 0.1 + limits[0])), int(radius * ((random() - 0.5) *0.1 + limits[1]))) )
             else:
                 r = radius * limits[0]
             theta = theta + theta_step
-            # x = int(center_x + r * math.cos(theta)) - topping_size//2
-            # y = int(center_y + r * math.sin(theta)) - topping_size//2
             
             new_topping = topping_img.copy()
             new_topping = new_topping.rotate(randint(0, 360), expand=True)
@@ -997,7 +977,6 @@ class Pizzaiolo():
         angle = - math.pi / 4
         x = x_c + (int)(rayon * math.cos(angle)) 
         y = y_c + (int)(rayon * math.sin(angle)) 
-        # y = base_img.size[1] - flag_img.size[1]
         return self._paste(base_img, flag_img, (x,y))
     
     def _pasteAmerica(self, base_img, masking=True):
@@ -1096,7 +1075,7 @@ class Pizzaiolo():
                 base = pizza_type.hasBase
                 
             if not base is None:
-                base_name = base.name #str(base)
+                base_name = base.name 
                 try:
                     pizza_img, base_mask = self._gen_map[base](pizza_img)
                     all_masks[base_name] = base_mask
@@ -1110,7 +1089,6 @@ class Pizzaiolo():
         # hasTopping
         toppings = {}
         all_toppings_masks = {}
-        # ic(pizza_type)
         
         if pizza_type is None:
             has_topping = set(choices(self.__toppings, k=randrange(1,6)))
@@ -1135,7 +1113,6 @@ class Pizzaiolo():
                 for i, m in enumerate(masks):
                     masks[i] = Pizzaiolo.__subMasks(m, full_topping_mask)                    
 
-            # all_toppings_masks[str(topping)] = topping_masks
             all_toppings_masks[topping.name] = topping_masks
         
         for t, masks in all_toppings_masks.items():
@@ -1143,7 +1120,6 @@ class Pizzaiolo():
             all_contours[t] = []
             all_boxes[t] = []
             for i, m in enumerate(masks):
-                # print(t)
                 contours, hierarchy = Pizzaiolo._findMaskContours(m)
                 all_contours[t].extend(contours)
                 boxes = Pizzaiolo._findBoxes(contours, hierarchy)
@@ -1166,7 +1142,7 @@ class Pizzaiolo():
                 country = pizza_type.hasCountryOfOrigin
                 
             if not country is None:
-                country_name = country.name #str(country)
+                country_name = country.name
                 try:
                     pizza_img, country_mask = self._gen_map[country](pizza_img)
                     
@@ -1200,17 +1176,6 @@ class Pizzaiolo():
             all_counts[base_name] = 1
             base_boxes = Pizzaiolo._findBoxes(base_contour, base_hierarchy)
             all_boxes[base_name] = base_boxes
-            # # if multiple boxes: search for largest
-            # idx = -1
-            # max = 0
-            # for i, bb in enumerate(base_boxes):
-            #     x, y, w, h = bb
-            #     area = w * h
-            #     if area > max:
-            #         max = area
-            #         idx = i
-            # if idx > -1:
-            #     all_boxes[base_name] = [base_boxes[idx]]
             
         # counts after clippings
         for t in has_topping:
@@ -1222,7 +1187,6 @@ class Pizzaiolo():
 
         # overlapping rate between toppings to evaluate pizza "readability"
         overlapping_rate = self._get_overlapping_rate(has_topping, all_boxes)
-        # print("overlapping rate: %s" % overlapping_rate)
         if overlapping_rate > 0.40:
             return self.preparePizza(pizza_type, base_img, background)
 
@@ -1231,9 +1195,6 @@ class Pizzaiolo():
             'image': pizza_img,
             'entities': {
                 'names':{
-                    # 'hasBase': base_name,
-                    # 'hasTopping': [t.name for t in toppings.values()],
-                    # 'hasCountryOfOrigin': country_name,  
                     self.__ontology.hasTopping.name: [t.name for t in toppings.values()],
                 },
                 'counts': all_counts,
@@ -1281,13 +1242,11 @@ class Pizzaiolo():
                              self.pizza.JalapenoPepperTopping]
         toppings = [t for t in has_topping if t not in excluded_toppings]
         for t in toppings:
-        # for t in has_topping:
             if t in excluded_toppings:
                 continue
             t_surface = 0.0001
             t_overlap = 0.0
             toppings.remove(t)
-            # other_boxes = sum([all_boxes[tt.name] for tt in toppings], [])
             other_boxes = sum([all_boxes[tt.name] for tt in has_topping if tt not in sum([[t], excluded_toppings], [])], [])
             for box in all_boxes[t.name]:
                 t_surface += box[2] * box[3]
@@ -1299,7 +1258,6 @@ class Pizzaiolo():
                 overlapping_rates.append(t_overlap / t_surface)
         if len(overlapping_rates) == 0 :
             overlapping_rates.append(0.0)
-        # return sum(overlapping_rates)/len(overlapping_rates)
         return max(overlapping_rates)
         
 

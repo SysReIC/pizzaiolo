@@ -1,9 +1,9 @@
-# Pizzaïolo
+# Pizzaiolo
 
 
-This python tool can be used to generate a custom dataset of synthetic pizza images with labels and pizza toppings bounding boxes, contours and semantic segmentation, according to the pizzas definitions of an ontology. 
+This python tool can be used to generate a custom dataset of synthetic pizza images conforming to the pizzas the [Pizzaïolo Ontology](https://doi.org/10.5281/zenodo.10165941).
 
-You can find here an example of such a dataset: the [Pizzaïolo Dataset](https://doi.org/10.5281/zenodo.10165941), containing 4800 samples of synthetic pizza images. 
+It ha been created and used to generate the [Pizzaïolo Dataset](https://doi.org/10.5281/zenodo.10165941) [1], containing 4800 samples of synthetic pizza images. 
 
 
 ## Authors
@@ -21,16 +21,16 @@ SysReIC (Systèmes Réflexifs et Ingenierie de la Connaissance)
 
 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
 
-If you use Pizzaïolo or the Pizzaïolo Dataset, please cite the following article :
+If you use [Pizzaiolo](https://github.com/SysReIC/pizzaiolo.git) or the [Pizzaïolo Dataset](https://doi.org/10.5281/zenodo.10165941), please cite as :
 
-> Bourguin G., Lewandowski A. **Pizzaïolo Dataset : Des Images Synthétiques Ontologiquement Explicables**. 24ème conférence francophone sur l'Extraction et la Gestion des Connaissances, EGC 2024. 
+> Grégory Bourguin, Arnaud Lewandowski. Pizzaïolo Dataset : Des Images Synthétiques Ontologiquement Explicables. 24ème conférence francophone sur l'Extraction et la Gestion des Connaissances, EGC 2024, Explain'AI., Jan 2024, Dijon, France, [https://hal.science/hal-04401953](https://hal.science/hal-04401953).
 
 
 ## Requirements 
 
-To use Pizzaïolo, you need to install the following modules:
+To use Pizzaiolo, you need to install the following modules:
 
-- Owlready2 [2]
+- Owlready2 [3]
 - numpy
 - pillow
 - pandas
@@ -47,14 +47,25 @@ import owlready2
 from libs.pizzaiolo import Pizzaiolo
 
 pizzaiolo = Pizzaiolo()
-pizza = pizzaiolo.get_ontology()
+ontology = pizzaiolo.getOntology()
 
 pizza_types = [
-  pizza.American, 
-  pizza.Napoletana,
-  pizza.FourSeasons,
-  pizza.Mushroom,
-  pizza.Veneziana
+  ontology.American,
+  ontology.AmericanHot,
+  ontology.Cajun,
+  ontology.Capricciosa,
+  ontology.Fiorentina,
+  ontology.FourSeasons,
+  ontology.Giardiniera,
+  ontology.LaReine,
+  ontology.Mushroom,
+  ontology.Napoletana,
+  ontology.Parmense,
+  ontology.Siciliana,
+  ontology.SloppyGiuseppe,
+  ontology.Soho,
+  ontology.Veneziana,
+  None # Random elements
 ]
 
 pizzaiolo.cook(pizza_types, number_of_each=10, delivery_dir='output')
@@ -71,8 +82,8 @@ The generated output is constituted of the following directories:
   NB: icons used to generate the images are coming from [https://www.flaticon.com/](https://www.flaticon.com/).
 
 - ontology/ : 
-  - `pizzaiolo.xml` : the Pizzaïolo Ontology (OWL) used to generate the samples.<br>
-  NB: this ontology was derived from [1], and built/manipulated with [2].
+  - `pizzaiolo.xml` : the Pizzaïolo Ontology (OWL 2) used to generate the samples.<br>
+  NB: this ontology was derived from [2], and built/manipulated with [3].
 
 - labels/ : 
   - Concepts Encoding : `concepts.json`
@@ -81,7 +92,7 @@ The generated output is constituted of the following directories:
   - Semantic Segmentation :  1 file / sample ->  `img_XXXXX_segmentation.txt`
 
 ## Generated sample
-![Annotations sample for a pizza](./libs/elements/sample_annotations/sample_la_reine.png)
+![Annotations sample for a pizza](./sample_annotations/sample_la_reine.png)
 
 ### Concepts
 
@@ -120,8 +131,10 @@ Each `img_XXXXX_segmentation.txt` file contains a Python Numpy `array` (`dtype=u
 
 ## References
 
-[1] [Horridge, M. (2011).  Protégé OWL Tutorial | OWL research at the University of Manchester.](http://owl.cs.manchester.ac.uk/publications/talks-and-tutorials/protg-owl-tutorial/).
+[1] Grégory Bourguin, Arnaud Lewandowski. Pizzaïolo Dataset : Des Images Synthétiques Ontologiquement Explicables. 24ème conférence francophone sur l'Extraction et la Gestion des Connaissances, EGC 2024, Explain'AI., Jan 2024, Dijon, France, [https://hal.science/hal-04401953](https://hal.science/hal-04401953).
 
-[2] Lamy, J.-B. (2017).   Owlready : Ontology-oriented programming in Python with automatic classification and high level constructs for biomedical ontologies. Artificial Intelligence in Medicine 80:11–28.
+[2] [Horridge, M. (2011).  Protégé OWL Tutorial | OWL research at the University of Manchester.](http://owl.cs.manchester.ac.uk/publications/talks-and-tutorials/protg-owl-tutorial/).
+
+[3] Lamy, J.-B. (2017).   Owlready : Ontology-oriented programming in Python with automatic classification and high level constructs for biomedical ontologies. Artificial Intelligence in Medicine 80:11–28.
 
 
