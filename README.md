@@ -68,10 +68,10 @@ pizza_types = [
   None # Random elements
 ]
 
-pizzaiolo.cook(pizza_types, number_of_each=10, delivery_dir='output')
+pizzaiolo.cook(pizza_types, number_of_each=10, delivery_dir='new_dataset_directory')
 ```
 
-The generated output is constituted of the following directories: 
+The generated 'new_dataset_directory' is constituted of the following sub-directories: 
 
 
 - csv/ : 
