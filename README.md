@@ -4,7 +4,7 @@
 This python tool can be used to generate a custom dataset of synthetic pizza images conforming to the pizzas the [Pizzaïolo Ontology](https://doi.org/10.5281/zenodo.10165941).
 
 It ha been created and used to generate the [Pizzaïolo Dataset](https://doi.org/10.5281/zenodo.10165941) [1], containing 4800 samples of synthetic pizza images. 
-(Note that the Pizzaiolo module alone does not generate the 'multilabel' column of the Pizzaïolo Dataset.).
+(Note that the Pizzaiolo module alone does not generate the 'multilabel' column of the Pizzaïolo Dataset).
 
 
 ## Authors
@@ -77,7 +77,7 @@ The generated 'new_dataset_directory' is constituted of the following sub-direct
 
 - csv/ : 
   - `pizzaiolo_dataset.csv` : details for all the samples in the dataset
-  - NB: the 'type' column contains the type of pizza that the Pizzaiolo was asked to generate : it does result from an ontological inference. 
+  - NB: the 'type' column contains the type of pizza that the Pizzaiolo was asked to generate : it does not result from an ontological inference. 
 
 - images/ : 
   - pizza images (224*224) : 1 file / sample -> `img_XXXXX.png` <br>
