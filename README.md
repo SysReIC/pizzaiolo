@@ -24,7 +24,7 @@ SysReIC (Systèmes Réflexifs et Ingenierie de la Connaissance)
 
 If you use [Pizzaiolo](https://github.com/SysReIC/pizzaiolo.git) or the [Pizzaïolo Dataset](https://doi.org/10.5281/zenodo.10165941), please cite as :
 
-> Grégory Bourguin, Arnaud Lewandowski. Pizzaïolo Dataset : Des Images Synthétiques Ontologiquement Explicables. 24ème conférence francophone sur l'Extraction et la Gestion des Connaissances, EGC 2024, Explain'AI, Jan 2024, Dijon, France, [https://hal.science/hal-04401953](https://hal.science/hal-04401953).
+> Grégory Bourguin, Arnaud Lewandowski. Pizzaïolo Dataset : Des Images Synthétiques Ontologiquement Explicables. [https://hal.science/hal-04401953](https://hal.science/hal-04401953).
 
 
 ## Requirements 
